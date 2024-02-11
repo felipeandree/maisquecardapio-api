@@ -1,3 +1,13 @@
+const express = require("express");
+const routes = require('./routes');
+
+const app = express();
+app.use(express.json());
+
+app.use(routes);
+
+module.exports = app;
+
 app.get("/", (req, res) => {
     return res.send("Hello World");
 })
@@ -16,6 +26,7 @@ app.post("/api/product", async (req, res) => {
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
+        image: req.body.image
     })
     await product.save()
     return res.send(product);
@@ -31,16 +42,10 @@ app.put("/api/product/:id", async (req, res) => {
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
+        image: req.body.image,
     }, {
         new: true,
     });
     return res.send(product);
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    mongoose.connect("mongodb+srv://felipe8:nav1jOjk7ALsbtbY@cluster0.wtrnjtb.mongodb.net/?retryWrites=true&w=majority");
-    console.log(`App running http://localhost:${port}`);
-})
-
-module.exports = app;

@@ -20,19 +20,18 @@ const ProductModel = require('../../models/ProductModel');
 
 exports.post = async (req, res, next) => {
     try {
-        const { name, price, description } = req.body;
+        const { name, price, description, image } = req.body;
 
-        // Crie uma nova instância do modelo ProductModel com os dados recebidos
         const newProduct = new ProductModel({
             name,
             price,
-            description
+            description,
+            image,
         });
 
-        // Salve o novo produto no banco de dados
+        
         const savedProduct = await newProduct.save();
 
-        // Retorne o produto salvo como resposta
         res.status(200).json(savedProduct);
     } catch (err) {
         console.error(err);
@@ -44,3 +43,19 @@ exports.get = async (req, res, next) => {
   const product = await ProductModel.find();
   res.status(200).send(product);
 }; 
+
+exports.delete = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        // Busque o produto pelo ID e remova-o do banco de dados
+        const deletedProduct = await ProductModel.findByIdAndDelete(id);
+    
+        // Retorne o produto removido como resposta
+        res.status(200).json(deletedProduct)
+        
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Erro ao remover o produto da base de dados' });
+    }
+}
