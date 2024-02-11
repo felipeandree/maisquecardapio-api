@@ -59,3 +59,32 @@ exports.delete = async (req, res, next) => {
         res.status(500).json({ error: 'Erro ao remover o produto da base de dados' });
     }
 }
+
+exports.put = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { name, price, description, image } = req.body;
+
+        const productUpdate = await ProductModel.findById(id);
+
+
+        // Se o produto não existir, exibir mensagem de erro.
+        if (!productUpdate) {
+            return res.status(404).json({ error: 'Produto não encontrado' });
+        }
+
+        productUpdate.name = name;
+        productUpdate.price = price;
+        productUpdate.description = description;
+        productUpdate.image = image;
+
+        const updatedProduct = await productUpdate.save();
+
+        res.status(200).json(updatedProduct);
+
+    } catch(err) {
+        console.log(err);
+        res.status(500).json({ error: "Erro ao atualizar o produto no banco de dados "})
+    }
+
+}
