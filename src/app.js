@@ -1,14 +1,19 @@
-
-
 const express = require("express");
 const routes = require('./routes');
+var cors = require('cors');
 
 const app = express();
+
 app.use(express.json());
 
-app.use(routes);
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    app.use(cors());
+    next();
+})
 
-module.exports = app;
+app.use(routes);
 
 app.get("/", (req, res) => {
     return res.send("Hello World");
@@ -51,3 +56,4 @@ app.put("/api/product/:id", async (req, res) => {
     return res.send(product);
 });
 
+module.exports = app;
