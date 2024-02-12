@@ -44,6 +44,25 @@ exports.get = async (req, res, next) => {
   res.status(200).send(product);
 }; 
 
+exports.getById = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        const product = await ProductModel.findById(id);
+        
+        if (!product) {
+            return res.status(404).json({ message: "Produto não encontrado" });
+        }
+
+        return res.status(200).json(product);
+    } catch (error) {
+        // Handle errors
+        console.error(error);
+        return res.status(500).json({ message: "Erro" });
+    }
+};
+
+
 exports.delete = async (req, res, next) => {
     try {
         const { id } = req.params;

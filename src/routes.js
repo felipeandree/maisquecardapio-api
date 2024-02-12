@@ -5,6 +5,8 @@ const ProductController = require('../src/app/controllers/product/ProductControl
 
 router.get('/api/products', ProductController.get)
 
+router.get('/api/products/:id', ProductController.getById)
+
 router.post('/api/product', ProductController.post)
 
 router.delete('/api/product/:id', ProductController.delete)

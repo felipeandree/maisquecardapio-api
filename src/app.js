@@ -28,6 +28,15 @@ app.get("api/products", async (req, res) => {
     }
  });
 
+ app.get("api/products/:id", async (req, res) => {
+    try {
+    const product = await Product.findById(req.params.id);
+    return res.send(product);
+ } catch (error) {
+    return res.status(500).json({ message: error.message });
+    }
+ })
+
 app.post("/api/product", async (req, res) => {
     const product = new Product({
         name: req.body.name,
