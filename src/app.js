@@ -3,7 +3,6 @@ const routes = require('./routes');
 var cors = require('cors');
 
 const app = express();
-
 app.use(express.json());
 
 app.use((req, res, next) => {

@@ -1,21 +1,3 @@
-// const ProductModel = require('../../models/ProductModel');
-
-
-// exports.post = (req, res, next) => {
-//     try {
-//         console.log(req.body)
-//     } catch (err) {
-//         console.log(err)
-//     }
-//     res.status(200).send("OK")
-// }
-
-// exports.get = async (req, res, next) => {
-//      const product = await ProductModel.find();
-//      res.status(200).send(product);
-    
-// } 
-
 const ProductModel = require('../../models/ProductModel');
 
 exports.post = async (req, res, next) => {
@@ -66,11 +48,9 @@ exports.getById = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
     try {
         const { id } = req.params;
-
-        // Busque o produto pelo ID e remova-o do banco de dados
         const deletedProduct = await ProductModel.findByIdAndDelete(id);
-    
-        // Retorne o produto removido como resposta
+
+        // Retorna o produto removido como resposta
         res.status(200).json(deletedProduct)
         
     } catch (err) {
@@ -85,7 +65,6 @@ exports.put = async (req, res, next) => {
         const { name, price, description, image } = req.body;
 
         const productUpdate = await ProductModel.findById(id);
-
 
         // Se o produto não existir, exibir mensagem de erro.
         if (!productUpdate) {
